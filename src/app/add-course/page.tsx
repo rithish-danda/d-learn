@@ -48,19 +48,18 @@ export default function AddCourse(){
     });
 
     const handleSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
-        console.log(fetch('http://192.168.255.188:5000/api/endpoint'))
-        window.location.reload();
-
         try {
-            const response = await axios.post('http://192.168.255.18:5000/api/generate-and-upload-content', {
-              topic: prompt,
+            const concatenatedString = `${values.prompt}§${values.domain}§${values.context}§${values.profile}`;
+            const response = await axios.post('https://lzhk8rw3-5001.inc1.devtunnels.ms/api/endpoint', {
+            data: concatenatedString,
             });
-            console.log(response.data);
+            console.log('Response:', response.data);
+            window.location.reload();
         } catch (error) {
-            console.error('Error generating and uploading content:', error);
+            console.error('Error sending data:', error);
         }
     };
+
     return (
         <main className="flex min-h-screen flex-col items-center justify-between p-24">
             <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
